@@ -1,20 +1,28 @@
 {
+  "name": "RemoteDOjo",
+  "version": "0.1",
+  "description": "Remote mentoring tool for CoderDojo WA",
+  "licence": "MIT",
   "repository": {
-    "type": "git"
+    "type": "git",
+	"url": "https://github.com/James-Patrick/RemoteDojo"
+  },
+  "dependencies": {
+    "webrtc": "1.14.x",
+    "attachmediastream": "1.0.1",
+    "socket.io": "*",
+    "request": "*",
+    "express": "*",
+    "body-parser": "*"
   },
   "devDependencies": {
-	"mocha": "*",
-   "should": ">= 0.0.1",
-   "webrtc": "1.14.x",
-   "attachmediastream": "1.0.1",
-   "socket.io": "*",
-   "request": "*",
-   "express": "*",
-   "body-parser": "*",
-   "forever": "*"
+    "mocha": "*",
+    "should": ">= 0.0.1",
+    "forever": "*",
+	"requirejs"
   },
   "scripts": {
-   "start": "node server.js",
-   "test": "node_modules/.bin/mocha"
+    "start": "node server.js",
+    "test": "node_modules/.bin/mocha"
   }
 }
