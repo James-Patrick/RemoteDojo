@@ -19,8 +19,7 @@
     "mocha": "*",
     "should": "*",
     "forever": "*",
-	"requirejs": "*",
-	"jsdom": "3.x"
+	"requirejs": "*"
   },
   "scripts": {
     "start": "node server.js",
