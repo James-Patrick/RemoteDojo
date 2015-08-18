@@ -1,6 +1,6 @@
 {
-  "name": "RemoteDOjo",
-  "version": "0.1",
+  "name": "RemoteDojo",
+  "version": "0.1.0",
   "description": "Remote mentoring tool for CoderDojo WA",
   "licence": "MIT",
   "repository": {
@@ -19,7 +19,7 @@
     "mocha": "*",
     "should": ">= 0.0.1",
     "forever": "*",
-	"requirejs"
+	"requirejs": "*"
   },
   "scripts": {
     "start": "node server.js",
