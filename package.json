@@ -17,9 +17,10 @@
   },
   "devDependencies": {
     "mocha": "*",
-    "should": ">= 0.0.1",
+    "should": "*",
     "forever": "*",
-	"requirejs": "*"
+	"requirejs": "*",
+	"jsdom": "3.x"
   },
   "scripts": {
     "start": "node server.js",
