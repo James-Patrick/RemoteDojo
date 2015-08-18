@@ -1,0 +1,20 @@
+{
+  "repository": {
+    "type": "git"
+  },
+  "devDependencies": {
+	"mocha": "*",
+   "should": ">= 0.0.1",
+   "webrtc": "1.14.x",
+   "attachmediastream": "1.0.1",
+   "socket.io": "*",
+   "request": "*",
+   "express": "*",
+   "body-parser": "*",
+   "forever": "*"
+  },
+  "scripts": {
+   "start": "node server.js",
+   "test": "node_modules/.bin/mocha"
+  }
+}
