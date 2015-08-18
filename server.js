@@ -7,13 +7,14 @@ var request = require('request');
 var socketio = require('socket.io');
 
 
-var privateKey = fs.readFileSync('fakekeys/privatekey.pem').toString(),
-    certificate = fs.readFileSync('fakekeys/certificate.pem').toString();
+var privateKey = fs.readFileSync('fakekeys/privatekey.pem').toString(), certificate = fs.readFileSync('fakekeys/certificate.pem').toString();
 
 var app = express();
 
-// This is the current representation of the help queue. It has a ninja and socket field, relating a ninja's name to their unique socket id.
-var queue = {ninja:[], socket:[]};
+// The help queue takes the form of a single array of socket ids
+var queue = [];
+var clients = {};
+
 
 // Currently we use static navigation through webpages
 app.use(express.static(__dirname));
@@ -25,10 +26,6 @@ sServer.listen(8000);
 
 // Attach the websocket handling
 var io = socketio(sServer);
-// A list of all connected clients, this is primarily used for tracking when people leave and responding correctly. It could also be useful for logging.
-var connectedClients = {name:[], socket:[], mentor:[]};
-// This keeps track of all current pairings between ninjas and mentors. It exists to allow ninjas to be tracked to the mentor helping them and vice versa
-var pairings = {ninja: [], mentor: []};
 
 // Function to communicate with the Xirsys api and delete a room
 function deleteRoom (roomName) {
@@ -111,23 +108,33 @@ function getIceServers (cb) {
 	});
 }
 
+
+function removeFromQueue (ninja) {
+	var i = 0;
+	while (i < queue.length && queue[i].id != ninja.id) i++;
+	if (i < queue.length) { 
+		queue.splice(i,1);
+		io.emit('queueUpdate', {queue : queue});
+	}
+	
+}
+
 // These are all the socket responses that the server will handle
 io.on('connection', function (socket, error) {
+	var me = {}
+	me.id = socket.id;
+	clients[me.id] = me;
 	// When the client requests ice servers
 	socket.on('iceRequest', function (data) {
-		// Mentors do this at page load and receive a queue update too
 		if (data.mentor) {
-			connectedClients.socket.push(socket.id);
-			connectedClients.name.push(data.mentor);
-			connectedClients.mentor.push('true');
-			socket.emit('queueUpdate', {queue : queue.ninja});
-			console.log('The mentor ' + data.mentor + ' has joined');
-			createRoom(data.mentor);
+			me.name = data.mentor;
+			me.mentor = 1;
+			socket.emit('queueUpdate',{queue:queue});
+			createRoom(me.id);
 		} else if (data.ninja) {
-			connectedClients.socket.push(socket.id);
-			connectedClients.name.push(data.ninja);
-			connectedClients.mentor.push('false');
-			console.log('The ninja ' + data.ninja + ' has joined');
+			me.name = data.ninja;
+			me.ninja = 1;
+			console.log('The ninja ' + me.name + ' has joined');
 		} else {
 			console.log('An unknown user has entered the system');
 			return;
@@ -142,82 +149,49 @@ io.on('connection', function (socket, error) {
 	
 	// This event is fired by a mentor who would like to help a ninja. The data includes the name of the ninja.
 	socket.on('answerRequest', function (data) {
-		console.log(data.mentor + ' would like to help ' + data.ninja);
-		var index = queue.ninja.indexOf(data.ninja);
-		var helpee = queue.socket[index];
-		var helper = socket.id;
-		// This puts the pair into the pairings list
-		pairings.ninja.push(helpee);
-		pairings.mentor.push(helper);
+		helpee = clients[data.ninja.id];
+		console.log(me.name + ' would like to help ' + helpee.name);
 		// This cuts the ninja out of the help queue
-		queue.socket.splice(index, 1);
-		queue.ninja.splice(index, 1);
-		io.emit('queueUpdate', {queue : queue.ninja});
+		removeFromQueue(helpee)
 		// Being told to change room is the trigger for both mentor and ninja to get ready to and begin communication
-		socket.emit('changeRoom', {room: data.mentor, mentor:data.mentor, ninja:data.ninja});
-		socket.broadcast.to(helpee).emit('changeRoom', {room: data.mentor, mentor:data.mentor, ninja:data.ninja});
+		helpee.pairing = me;
+		me.pairing = helpee;
+		
+		socket.emit('changeRoom', {room: me.id, mentor:me.name, ninja:helpee.name});
+		socket.broadcast.to(helpee.id).emit('changeRoom', {room: me.id, mentor:me.name, ninja:helpee.name});
 	});
 	// This event is fired when a ninja requests help. Data is just the ninja's name.
 	socket.on('requestHelp', function(data) {
-		console.log(data.ninja + ' is requesting help');
-		queue.ninja.push(data.ninja);
-		queue.socket.push(socket.id);
-		io.emit('queueUpdate', {queue : queue.ninja});
+		console.log(me.name + ' is requesting help');
+		queue.push(me);
+		io.emit('queueUpdate', {queue : queue});
 	});
 	
 	// This event is fired when the ninja clicks the button to disconnect from the mentor-ninja session
 	socket.on('leaving', function(data) {
-		console.log(pairings);
-		var index = pairings.ninja.indexOf(socket.id);
-		if (index > -1) {
-			pairings.ninja.splice(index, 1);
-			socket.broadcast.to(pairings.mentor.splice(index,1)[0]).emit('otherDisconnect');
+		if (me.pairing) {
+			socket.broadcast.to(me.pairing.id).emit('otherDisconnect');
+			me.pairing.pairing = null;
+			me.pairing = null;
 		}
 	});
 	
 	socket.on('pm', function(data) {
-		var index = pairings.ninja.indexOf(socket.id);
-		if (index > -1) {
-			socket.broadcast.to(pairings.mentor[index]).emit('pm', data);
-		} else {
-			index = pairings.mentor.indexOf(socket.id);
-			if (index > -1) {
-				socket.broadcast.to(pairings.ninja[index]).emit('pm' ,data);
-			}
-		}
+		socket.broadcast.to(me.pairing.id).emit('pm',data);
 	});
 	
 	// We care about when people disconnect from the server because the help queue needs to be updated if they were in it and it needs to inform the other party if the disconnecting party was in a communication session
 	socket.on('disconnect', function() {
-		var index = queue.socket.indexOf(socket.id);
-		if (index > -1) {
-			queue.socket.splice(index, 1);
-			var ninja = queue.ninja.splice(index, 1);
-			io.emit('queueUpdate', {queue : queue.ninja});
-			console.log(ninja + ' was waiting for help but disconnected')
+		removeFromQueue(me);
+		if (me.pairing) {
+			socket.broadcast.to(me.pairing.id).emit('otherDisconnect');
+			me.pairing.pairing = null;
 		}
-		var index2 = connectedClients.socket.indexOf(socket.id);
-		if (index2 > -1) {
-			connectedClients.socket.splice(index2, 1);
-			var name = connectedClients.name.splice(index2, 1)[0];
-			var mentor = connectedClients.mentor.splice(index2, 1)[0];
-			if (mentor == 'true') {
-				console.log('The mentor ' + name + ' just disconnected');
-				var index3 = pairings.mentor.indexOf(socket.id);
-				if (index3 > -1) {
-					pairings.mentor.splice(index3, 1);
-					socket.broadcast.to(pairings.ninja.splice(index3,1)[0]).emit('otherDisconnect');
-				}
-				deleteRoom(name);
-			} else {
-				var index3 = pairings.ninja.indexOf(socket.id);
-				if (index3 > -1) {
-					pairings.ninja.splice(index3, 1);
-					socket.broadcast.to(pairings.mentor.splice(index3,1)[0]).emit('otherDisconnect');
-				}
-				console.log('The ninja ' + name + ' just disconnected');
-			}
+		if (me.mentor) {
+			deleteRoom(me.id);
 		}
+		console.log(me.name + ' has disconnected from the system');
+		clients[me.id] = null;
 	});
 });
 

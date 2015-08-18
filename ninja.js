@@ -34,7 +34,6 @@ function handleIceServers(data) {
 }
 
 function firstPhaseClick() {
-	socket.emit('iceRequest', {ninja : getParameterByName('user')});
 	socket.emit('requestHelp', {ninja: getParameterByName('user')});
 	$(firstPhaseButton).hide();
 	$(firstPhaseText).text('You are waiting in queue to be helped');
@@ -105,6 +104,7 @@ $(secondPhase).hide();
 $(thirdPhase).hide();
 $(nameField).text(getParameterByName('user'));
 $('#collapseTwo').collapse("hide");
+socket.emit('iceRequest', {ninja : getParameterByName('user')});
 
 
 

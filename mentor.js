@@ -46,9 +46,9 @@ function renderBody(queue) {
 		queue.forEach(function(entry) {
 			var b = document.createElement("div");
 			$(b).addClass("btn btn-default btn-block input-sm");
-			$(b).text(entry);
+			$(b).text(entry.name);
 			b.onclick = function() {
-				socket.emit('answerRequest', {ninja: entry, mentor: getParameterByName('user')});
+				socket.emit('answerRequest', {ninja: entry});
 				$(firstPhase).hide();
 				$(secondPhase).show();
 			}
