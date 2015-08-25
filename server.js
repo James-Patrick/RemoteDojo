@@ -160,6 +160,7 @@ io.on('connection', function (socket, error) {
 		
 		socket.emit('changeRoom', {room: me.id, mentor:me.name, ninja:helpee.name});
 		socket.broadcast.to(helpee.id).emit('changeRoom', {room: me.id, mentor:me.name, ninja:helpee.name});
+		io.emit('queueUpdate', {queue : queue});
 	});
 	// This event is fired when a ninja requests help. Data is just the ninja's name.
 	socket.on('requestHelp', function(data) {
