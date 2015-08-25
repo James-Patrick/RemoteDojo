@@ -11,6 +11,7 @@
     "webrtc": "1.14.x",
     "attachmediastream": "1.0.1",
     "socket.io": "*",
+	"socket.io-client": "*",
     "request": "*",
     "express": "*",
     "body-parser": "*"

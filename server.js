@@ -129,6 +129,7 @@ io.on('connection', function (socket, error) {
 		if (data.mentor) {
 			me.name = data.mentor;
 			me.mentor = 1;
+			console.log('The mentor ' + me.name + ' has joined');
 			socket.emit('queueUpdate',{queue:queue});
 			createRoom(me.id);
 		} else if (data.ninja) {
