@@ -123,6 +123,7 @@ function removeFromQueue (ninja) {
 io.on('connection', function (socket, error) {
 	var me = {}
 	me.id = socket.id;
+	me.roomName = me.id.replace('_','');
 	clients[me.id] = me;
 	// When the client requests ice servers
 	socket.on('iceRequest', function (data) {
@@ -131,7 +132,7 @@ io.on('connection', function (socket, error) {
 			me.mentor = 1;
 			console.log('The mentor ' + me.name + ' has joined');
 			socket.emit('queueUpdate',{queue:queue});
-			createRoom(me.id);
+			createRoom(me.roomName);
 		} else if (data.ninja) {
 			me.name = data.ninja;
 			me.ninja = 1;
@@ -158,8 +159,8 @@ io.on('connection', function (socket, error) {
 		helpee.pairing = me;
 		me.pairing = helpee;
 		
-		socket.emit('changeRoom', {room: me.id, mentor:me.name, ninja:helpee.name});
-		socket.broadcast.to(helpee.id).emit('changeRoom', {room: me.id, mentor:me.name, ninja:helpee.name});
+		socket.emit('changeRoom', {room: me.roomName, mentor:me.name, ninja:helpee.name});
+		socket.broadcast.to(helpee.id).emit('changeRoom', {room: me.roomName, mentor:me.name, ninja:helpee.name});
 		io.emit('queueUpdate', {queue : queue});
 	});
 	// This event is fired when a ninja requests help. Data is just the ninja's name.
@@ -190,7 +191,7 @@ io.on('connection', function (socket, error) {
 			me.pairing.pairing = null;
 		}
 		if (me.mentor) {
-			deleteRoom(me.id);
+			deleteRoom(me.roomName);
 		}
 		console.log(me.name + ' has disconnected from the system');
 		clients[me.id] = null;
