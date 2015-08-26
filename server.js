@@ -123,7 +123,7 @@ function removeFromQueue (ninja) {
 io.on('connection', function (socket, error) {
 	var me = {}
 	me.id = socket.id;
-	me.roomName = me.id.replace('_','');
+	me.roomName = me.id.replace('_','-');
 	clients[me.id] = me;
 	// When the client requests ice servers
 	socket.on('iceRequest', function (data) {
