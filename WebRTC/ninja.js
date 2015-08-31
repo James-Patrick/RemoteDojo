@@ -1,0 +1,110 @@
+var chatPanel = document.getElementById("chatPanel");
+var avatarBox = document.getElementById("imgAvatar");
+var nameField = document.getElementById("ninjaName");
+var mentorField = document.getElementById("mentorName");
+
+var firstPhase = document.getElementById("chatFirstPhase");
+var secondPhase = document.getElementById("chatSecondPhase");
+var thirdPhase = document.getElementById("chatThirdPhase");
+
+var opts = {};
+opts.localCamBox = document.getElementById("localCamBox");
+opts.remoteCamBox = document.getElementById("remoteCamBox");
+opts.screenBox = document.getElementById("localScreenBox");
+
+var firstPhaseButton = document.getElementById("firstPhaseButton");
+var firstPhaseText = document.getElementById("firstPhaseText");
+
+var secondPhaseButton = document.getElementById("secondPhaseButton");
+var shareButton = document.getElementById("shareButton");
+var finishButton = document.getElementById("finishButton");
+
+var socket = io();
+var webrtc;
+
+
+/*
+	Function to handle the receiving of ice server info.
+	This the data packet should be exactly what is returned by xirsys concerning ICE connection details. Hence, all the data will be in the data.d field.
+*/
+function handleIceServers(data) {
+	console.log(data);
+	console.log(data.d);
+	webrtc = webrtcInit(data.d, opts);
+}
+
+function firstPhaseClick() {
+	socket.emit('requestHelp', {ninja: getParameterByName('user')});
+	$(firstPhaseButton).hide();
+	$(firstPhaseText).text('You are waiting in queue to be helped');
+}
+
+/*	Function to handle the changing of room.
+	The data should include fields defining the name of the room and the name of ninja who will be joining 
+*/
+function handleRoomChange (data) {
+	console.log('Changing to room: ' + data.room);
+	room = data.room;
+	$(mentorField).text(data.mentor);
+	$(firstPhase).hide();
+	$(secondPhase).show();
+	$(opts.localCamBox).empty();
+	$(chatWindow).empty();
+	webrtc.startLocalVideo();
+}
+
+function shareButtonClick() {
+	webrtc.shareScreen(function (err) {
+		if (err)
+			console.log('Share Screen Error: ',err);
+	});
+}
+
+function secondPhaseClick() {
+	$(firstPhase).hide();
+	$(secondPhase).hide();
+	$(thirdPhase).show();
+}
+
+function handleMentorDisconnect (data) {
+	webrtc.leaveRoom();
+	webrtc.stopLocalVideo();
+	webrtc.stopScreenShare();
+	$(firstPhase).show();
+	$(secondPhase).hide();
+	$(thirdPhase).hide();
+	$(firstPhaseButton).show();
+	$(firstPhaseText).text("To chat with the mentor, click on 'Chat' button");
+	alert("The mentor you were working with disconnected");
+}
+
+function finishChatClick() {
+	$(firstPhase).show();
+	$(secondPhase).hide();
+	$(thirdPhase).hide();
+	$(firstPhaseButton).show();
+	$(firstPhaseText).text("To chat with the mentor, click on 'Chat' button");
+	webrtc.leaveRoom();
+	webrtc.stopLocalVideo();
+	webrtc.stopScreenShare();
+	socket.emit('leaving', {});
+}
+
+socket.on('iceServers',handleIceServers);
+firstPhaseButton.onclick = firstPhaseClick;
+socket.on('changeRoom', handleRoomChange);
+shareButton.onclick = shareButtonClick;
+secondPhaseButton.onclick = secondPhaseClick;
+socket.on('otherDisconnect', handleMentorDisconnect);
+finishButton.onclick = finishChatClick;
+
+
+$(firstPhase).show();
+$(secondPhase).hide();
+$(thirdPhase).hide();
+$(nameField).text(getParameterByName('user'));
+$('#collapseTwo').collapse("hide");
+socket.emit('iceRequest', {ninja : getParameterByName('user')});
+
+
+

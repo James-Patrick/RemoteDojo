@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Online Dojo Demonstration Page Changed</title>
+    </head>
+    <body>
+        <h1 id="title">Demo Start Page</h1>
+		<form onSubmit="return popoutMentor()">
+			<h2>Mentor Log-in</h2><br/>
+			Name: <input id="mentorName" type="text" name="user"><br/><br/>
+			<input type="submit" value = "Enter">
+		</form>
+		<br><br><br>
+        <form onSubmit="return popoutNinja()">
+			<h2>Ninja Entry</h2><br/>
+			Name: <input id="ninjaName" type="text" name="user"><br/><br/>
+			<input type="submit" value = "Enter">
+		</form>
+		
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+		<script>
+			function popoutMentor() {
+				var url = "Mentor.html?user=" + $("#mentorName").val();
+				var w = window.open(url, "_blank", "status=no, menubar=no, titlebar=no, toolbar=no, location=no, width=300, height=620, scrollbars=yes", false);
+				return w?false:true;
+			}
+			function popoutNinja() {
+				var url = "Ninja.html?user=" + $("#ninjaName").val();
+				var w = window.open(url, "_blank", "status=no, menubar=no, titlebar=no, toolbar=no, location=no, width=300, height=620, scrollbars=yes", false);
+				return w?false:true;
+			}
+		</script>
+    </body>
+</html>
