@@ -23,6 +23,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', require('./routes/index'));
  
 var dry_layers = require('dry-layers');
+app.use('/dry-layers', dry_layers.StaticService.createRouter());
 if (dry_layers.Registry.getDatabase()) {  
     var passport = require('passport');
     passport.use(dry_layers.SecurityService.createStrategy());
@@ -33,7 +34,6 @@ if (dry_layers.Registry.getDatabase()) {
     }));
     app.use(passport.initialize());
     app.use(passport.session());
-    app.use('/dry-layers', dry_layers.StaticService.createRouter());
     app.use('/', dry_layers.SecurityService.createRouter());
     app.use('/dojos', dry_layers.DataService.createRouter('dojo'));
     app.use('/meetings', dry_layers.DataService.createRouter('meeting'));

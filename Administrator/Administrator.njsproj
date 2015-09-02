@@ -36,7 +36,6 @@
     <Compile Include="routes\index.js" />
     <Compile Include="bin\www" />
     <Compile Include="views\parts\dojo_dialog.jade" />
-    <Compile Include="views\sign_out.jade" />
     <Content Include="package.json" />
     <Content Include="public\stylesheets\style.styl" />
     <Content Include="README.md" />
@@ -46,10 +45,8 @@
     <Content Include="views\layout.jade" />
     <Content Include="views\error.jade" />
     <Content Include="views\parts\role_dialog.jade" />
-    <Content Include="views\parts\sign_in_dialog.jade" />
     <Content Include="views\parts\user_dialog.jade" />
     <Content Include="views\parts\meeting_dialog.jade" />
-    <Content Include="views\sign_in.jade" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\" />

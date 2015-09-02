@@ -1,5 +1,4 @@
 .settings/
 bin/
 obj/
-*.nsproj
 .ntvs_analysis.dat
