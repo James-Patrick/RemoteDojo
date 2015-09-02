@@ -1,0 +1,48 @@
+﻿extends layout
+
+block content
+
+    a(class="btn btn-default" style="margin-bottom:16pt" href="/sign_out" role="button") Sign out
+
+    div#meeting-list(class="panel panel-default")
+        div(class="panel-heading")
+            div(role="button" data-toggle="collapse" href="#meeting-list-collapse" aria-expanded="true" aria-controls="meeting-list-collapse")
+                | Meetings
+        div(id="meeting-list-collapse" class="panel-collapse collapse in")
+            div(class="panel-body")
+                button(type="button" class="btn" name="add") Add
+            div#meeting-list-items(class="list-group")
+
+    div#user-list(class="panel panel-default")
+        div(class="panel-heading")
+            div(role="button" data-toggle="collapse" href="#user-list-collapse" aria-expanded="true" aria-controls="user-list-collapse")
+                | Users
+        div(id="user-list-collapse" class="panel-collapse collapse in")
+            div(class="panel-body")
+                button(type="button" class="btn" name="add") Add
+            div#user-list-items(class="list-group")
+                     
+    include ./parts/meeting_dialog
+
+    include ./parts/user_dialog
+
+    script(src='/dry-layers/data_gateway.js')
+    script(src='/dry-layers/dialog.js')
+    script(src='/dry-layers/list.js')
+    script.
+      
+        $(document).ready(function () {
+          
+            List('meeting', MeetingDialog());
+           
+            list = List('user', UserDialog());
+            list.getItemText = function(data) {
+                return data.firstName + ' ' + data.lastName;
+            }
+            list.validate = function(data, callback)  {
+                data.username = data.email;
+                callback(null, data);
+            }
+        });
+
+

@@ -1,0 +1,59 @@
+﻿div#meeting-dialog(class="modal" tabindex="-1" role="dialog")
+    div(class="modal-dialog" role="document")
+        div(class="modal-content")
+            div(class="modal-header")
+                button(type="button" class="close" data-dismiss="modal")
+                    span &times
+                h4(class="modal-title") Meeting
+            div(class="modal-body")                      
+                form(role="form")
+                    div(class="form-group")
+                        label(style="width:100%") Password:
+                            input(class="form-control" style="font-weight:normal" type="text", name="password" placeholder="password")                     
+                    div(class="form-group")
+                        div(style="font-weight:bold") Dojo:
+                    div#meeting-dialog-dojos
+                        each dojo, i in dojos
+                            div(class="radio")
+                                label
+                                    - var name = dojo.name ? dojo.name : 'null'
+                                    input(type="radio" name="dojo[]" value=dojo._id) 
+                                    | #{name} 
+            
+            div(class="modal-footer")
+                button(type="button" class="btn btn-danger pull-left" data-dismiss="modal" value="remove") Delete
+                button(type="button" class="btn btn-primary" data-dismiss="modal" value="ok") OK
+                button(type="button" class="btn btn-default" data-dismiss="modal" value="cancel") Cancel
+
+script.
+
+    function MeetingDialog() {
+
+        var that = DataDialog('meeting');
+
+        that.load = function(callback) {
+            data_gateway = DataGateway('dojo');
+            data_gateway.get(function (err, data) {
+                var divs = [];
+                $.each(data, function (i, dojo) {
+                    var label = $('<label/>');
+                    var input = $('<input/>').attr({
+                        type: 'checkbox',
+                        name: 'dojos[]', 
+                        value: dojo._id
+                    });
+                    label.append(input);
+                    label.append(dojo.name);
+                    var div = $('<div/>')
+                        .addClass('checkbox');
+                    div.append(label);
+                    divs.push(div);
+                });
+                $(this.id + '-dojos').empty().append(divs);
+                callback();
+            });
+        }        
+
+        return that;
+    }
+

@@ -1,0 +1,76 @@
+﻿div#user-dialog(class="modal" tabindex="-1" role="dialog")
+    div(class="modal-dialog" role="document")
+        div(class="modal-content")
+            div(class="modal-header")
+                button(type="button" class="close" data-dismiss="modal")
+                    span &times
+                h4(class="modal-title") User
+            div(class="modal-body")                      
+                form(role="form")
+                    div(class="form-group")
+                        label(style="width:100%") First name:
+                            input(class="form-control" style="font-weight:normal" type="text", name="firstName" placeholder="first name")                     
+                    div(class="form-group")
+                        label(style="width:100%") Last name:
+                            input(class="form-control" style="font-weight:normal" type="text", name="lastName" placeholder="last name")                     
+                    div(class="form-group")
+                        div(style="font-weight:bold") Role:
+                    div#user-dialog-role(style="margin-bottom:12pt")
+                        each role, i in roles
+                            div(class="radio")
+                                label
+                                    - var name = role.name ? role.name : 'null'
+                                    input(type="radio" name="roles[]" value=name) 
+                                    | #{name} 
+                    div(class="form-group")
+                        div(style="font-weight:bold") Dojos:
+                    div#user-dialog-dojos(style="margin-bottom:12pt")
+                        each dojo, i in dojos
+                            div(class="checkbox")
+                                label
+                                    - var name = dojo.name ? dojo.name : 'null'
+                                    input(type="checkbox" name="dojos[]" value=dojo._id) 
+                                    | #{name} 
+                    div(class="form-group")
+                        label(style="width:100%") Email:
+                            input(class="form-control" style="font-weight:normal" type="email", name="email" placeholder="email") 
+                    div(class="form-group")
+                        label(style="width:100%") Password:
+                            input(class="form-control" style="font-weight:normal" type="text", name="password" placeholder="password")                     
+            div(class="modal-footer")
+                button(type="button" class="btn btn-danger pull-left" data-dismiss="modal" value="remove") Delete
+                button(type="button" class="btn btn-primary" data-dismiss="modal" value="ok") OK
+                button(type="button" class="btn btn-default" data-dismiss="modal" value="cancel") Cancel
+
+script.
+
+    function UserDialog() {
+
+        var that = DataDialog('user');
+
+        that.load = function(callback) {
+            data_gateway = DataGateway('dojo');
+            data_gateway.get(function (err, data) {
+                var divs = [];
+                $.each(data, function (i, dojo) {
+                    var label = $('<label/>');
+                    var input = $('<input/>').attr({
+                        type: 'checkbox',
+                        name: 'dojos[]', 
+                        value: dojo._id
+                    });
+                    label.append(input);
+                    label.append(dojo.name);
+                    var div = $('<div/>')
+                        .addClass('checkbox');
+                    div.append(label);
+                    divs.push(div);
+                });
+                $(that.id + '-dojos').empty().append(divs);
+                callback();
+            });
+        }        
+
+        return that;
+    }
+
