@@ -1,5 +1,5 @@
 .settings/
-bin/
+bin/*
 !bin/www
 obj/
 .ntvs_analysis.dat
