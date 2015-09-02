@@ -1,6 +1,5 @@
 .settings/
 bin/
-node_modules/
 obj/
 *.nsproj
 .ntvs_analysis.dat
