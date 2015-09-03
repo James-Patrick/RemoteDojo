@@ -1,5 +1,5 @@
 .settings/
 bin/*
-!bin/www
+!bin/www.js
 obj/
 .ntvs_analysis.dat

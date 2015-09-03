@@ -1,6 +1,4 @@
-﻿#!/usr/bin/env node
-
-var debug = require('debug')('Administrator');
+﻿var debug = require('debug')('Administrator');
 var mongo = require('mongodb');
 mongo.MongoClient.connect('mongodb://localhost:27017/coderdojo', function (err, db) {
 	var dry = require('dry-layers');
