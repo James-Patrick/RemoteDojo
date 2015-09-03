@@ -12,7 +12,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>09ec5cba-a62e-4ab0-bde5-c2ad0407c3ec</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>bin\www</StartupFile>
+    <StartupFile>bin\www.js</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -34,7 +34,7 @@
     <Compile Include="routes\champion.js" />
     <Compile Include="routes\administrator.js" />
     <Compile Include="routes\index.js" />
-    <Compile Include="bin\www" />
+    <Compile Include="bin\www.js" />
     <Compile Include="views\parts\dojo_dialog.jade" />
     <Content Include="package.json" />
     <Content Include="public\stylesheets\style.styl" />
