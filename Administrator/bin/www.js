@@ -14,7 +14,7 @@ mongo.MongoClient.connect('mongodb://localhost:27017/coderdojo', function (err, 
 	}
 	dry.Registry.setDatabase(db);
 	var app = require('../app.js');
-	app.set('port', process.env.PORT || 3000);
+	app.set('port', process.env.PORT || 8001);
 	var server = app.listen(app.get('port'), function () {
 		debug('Express server listening on port ' + server.address().port);
 	});
