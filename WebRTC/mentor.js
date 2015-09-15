@@ -74,7 +74,6 @@ function handleRoomChange(data) {
 	$('#ninjaName').text(data.ninja);
 	$(opts.localCamBox).empty();
 	$(chatWindow).empty();
-	$(opts.screenBox).empty();
 	webrtc.startLocalVideo();
 }
 
@@ -109,4 +108,3 @@ $(secondPhase).hide();
 $(nameField).text(getParameterByName('user'));
 $('#collapseTwo').collapse("hide");
 socket.emit('iceRequest', {mentor : getParameterByName('user')});
-
