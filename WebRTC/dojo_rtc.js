@@ -4,16 +4,47 @@ function setRoom(newRoom) {
 	room = newRoom;
 }
 
-function webrtcInit(peerConnectionConfig, opts) {
+function showVolume(el, volume) {
+		console.log('showVolume', volume, el);
+		if (!el) return;
+		if (volume < -45) volume = -45; // -45 to -20 is
+		if (volume > -20) volume = -20; // a good range
+		el.value = volume;
+}
+
+function webrtcInit(peerConnectionConfig, opts, video) {
 	// Create the SimpleWebRTC object
+	if (video) {
+		var mediaOptions = {
+			audio: true,
+			video: true
+		};
+		var localVideoOptions = {
+			muted: true,
+			mirror: true,
+			autoplay: true
+		}
+	} else {
+		var mediaOptions = {
+			audio: true,
+			video: false
+		};
+		var localVideoOptions = {
+			muted: false,
+			mirror: true,
+			autoplay: true
+		}
+	}
 	var webrtc = new SimpleWebRTC({
 		// Holder for the local webcam
 		localVideoEl: opts.localCamBox,
 		remoteVideosEl: '',
 		autoRequestMedia: false,
 		debug: false,
-		detectSpeakingEvents: false,
+		detectSpeakingEvents: true,
 		autoAdjustMic: false,
+		media: mediaOptions,
+		localVideo: localVideoOptions,
 		// Add the new peerConnectionConfig object
 		peerConnectionConfig: peerConnectionConfig
 	});
@@ -48,9 +79,9 @@ function webrtcInit(peerConnectionConfig, opts) {
 			var inType = peer.type;
 			var el = document.getElementById('container_' + webrtc.getDomId(peer));
 			if (inType == 'video') {
-				container = remoteCamBox;
+				container = opts.remoteCamBox;
 			} else {
-				container = screenBox;
+				container = opts.screenBox;
 			}
 			if (container && el) {
 				container.removeChild(el);
@@ -68,6 +99,16 @@ function webrtcInit(peerConnectionConfig, opts) {
 		if (opts.screenBox) {
 			video.id = 'localScreen';
 			opts.screenBox.appendChild(video);
+		}
+	});
+	
+	webrtc.on('volumeChange', function (volume, treshold) {
+		showVolume(document.getElementById('myVolume'), volume);
+	});
+	
+	webrtc.on('remoteVolumeChange', function (peer, volume) {
+		if (document.getElementById('ninjaVolume')) {
+			showVolume(document.getElementById('ninjaVolume'), volume);
 		}
 	});
 	

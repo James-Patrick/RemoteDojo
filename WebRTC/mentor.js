@@ -74,6 +74,7 @@ function handleRoomChange(data) {
 	$('#ninjaName').text(data.ninja);
 	$(opts.localCamBox).empty();
 	$(chatWindow).empty();
+	$(opts.screenBox).empty();
 	webrtc.startLocalVideo();
 }
 
@@ -84,7 +85,7 @@ function handleRoomChange(data) {
 function handleIceServers(data) {
 	console.log(data);
 	console.log(data.d);
-	webrtc = webrtcInit(data.d, opts);
+	webrtc = webrtcInit(data.d, opts, true);
 	console.log(webrtc);
 }
 
