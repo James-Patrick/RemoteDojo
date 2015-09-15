@@ -93,8 +93,8 @@ function handleIceServers(data) {
 	This function should handle the event of the ninja disconnecting from the system during a session.
 */
 function handleNinjaDisconnect(data) {
-	alert("The ninja you were communicating with left");
 	webrtc.stopLocalVideo();
+	alert("The ninja you were communicating with left");
 	$(secondPhase).hide();
 	$(firstPhase).show();
 }

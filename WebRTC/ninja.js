@@ -65,9 +65,9 @@ function shareButtonClick() {
 
 function secondPhaseClick() {
 	$(firstPhase).hide();
+	document.getElementById("localCamBox").childNodes[0].muted = true;
 	room = tempRoom;
 	webrtc.testReadiness();
-	webrtc.getRemoteVideoContainer.muted = true;
 	$(secondPhase).hide();
 	$(thirdPhase).show();
 }
@@ -104,7 +104,7 @@ secondPhaseButton.onclick = secondPhaseClick;
 socket.on('otherDisconnect', handleMentorDisconnect);
 finishButton.onclick = finishChatClick;
 
-
+$(localCamBox).hide();
 $(firstPhase).show();
 $(secondPhase).hide();
 $(thirdPhase).hide();

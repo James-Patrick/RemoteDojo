@@ -5,7 +5,6 @@ function setRoom(newRoom) {
 }
 
 function showVolume(el, volume) {
-		console.log('showVolume', volume, el);
 		if (!el) return;
 		if (volume < -45) volume = -45; // -45 to -20 is
 		if (volume > -20) volume = -20; // a good range
