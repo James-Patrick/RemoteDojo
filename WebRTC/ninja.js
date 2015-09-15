@@ -57,6 +57,8 @@ function handleRoomChange (data) {
 }
 
 function shareButtonClick() {
+	
+	webrtc.stopScreenShare();
 	webrtc.shareScreen(function (err) {
 		if (err)
 			console.log('Share Screen Error: ',err);
