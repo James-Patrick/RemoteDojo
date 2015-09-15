@@ -19,8 +19,6 @@ var secondPhaseButton = document.getElementById("secondPhaseButton");
 var shareButton = document.getElementById("shareButton");
 var finishButton = document.getElementById("finishButton");
 
-var tempRoom;
-
 var socket = io();
 var webrtc;
 
@@ -29,7 +27,6 @@ var webrtc;
 	Function to handle the receiving of ice server info.
 	This the data packet should be exactly what is returned by xirsys concerning ICE connection details. Hence, all the data will be in the data.d field.
 */
-
 function handleIceServers(data) {
 	console.log(data);
 	console.log(data.d);
@@ -47,7 +44,7 @@ function firstPhaseClick() {
 */
 function handleRoomChange (data) {
 	console.log('Changing to room: ' + data.room);
-	tempRoom = data.room;
+	room = data.room;
 	$(mentorField).text(data.mentor);
 	$(firstPhase).hide();
 	$(secondPhase).show();
@@ -67,11 +64,9 @@ function shareButtonClick() {
 
 function secondPhaseClick() {
 	$(firstPhase).hide();
-	document.getElementById("localCamBox").childNodes[0].muted = true;
-	room = tempRoom;
-	webrtc.testReadiness();
 	$(secondPhase).hide();
 	$(thirdPhase).show();
+
 }
 
 function handleMentorDisconnect (data) {
