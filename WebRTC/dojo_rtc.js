@@ -1,4 +1,4 @@
-var room = 'default';
+var room = 'waiting';
 
 function setRoom(newRoom) {
 	room = newRoom;
@@ -50,9 +50,11 @@ function webrtcInit(peerConnectionConfig, opts, video) {
 	});
 	
 	webrtc.on('readyToCall', function() {
-		console.log('Ready to call');
-		console.log('connecting to room: ' + room);
-		webrtc.joinRoom(room);
+		if (room != 'waiting') {
+			console.log('Ready to call');
+			console.log('connecting to room: ' + room);
+			webrtc.joinRoom(room);
+		}
 	});
 	
 	webrtc.on('videoAdded', function (video, peer) {

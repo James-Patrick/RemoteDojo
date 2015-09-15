@@ -19,6 +19,8 @@ var secondPhaseButton = document.getElementById("secondPhaseButton");
 var shareButton = document.getElementById("shareButton");
 var finishButton = document.getElementById("finishButton");
 
+var tempRoom;
+
 var socket = io();
 var webrtc;
 
@@ -45,7 +47,7 @@ function firstPhaseClick() {
 */
 function handleRoomChange (data) {
 	console.log('Changing to room: ' + data.room);
-	room = data.room;
+	tempRoom = data.room;
 	$(mentorField).text(data.mentor);
 	$(firstPhase).hide();
 	$(secondPhase).show();
@@ -63,6 +65,9 @@ function shareButtonClick() {
 
 function secondPhaseClick() {
 	$(firstPhase).hide();
+	room = tempRoom;
+	webrtc.testReadiness();
+	webrtc.getRemoteVideoContainer.muted = true;
 	$(secondPhase).hide();
 	$(thirdPhase).show();
 }
