@@ -1,4 +1,5 @@
-var room = 'default';
+//var room = 'default';
+var room = 'waiting';
 
 function setRoom(newRoom) {
 	room = newRoom;
@@ -42,6 +43,7 @@ function webrtcInit(peerConnectionConfig, opts, video) {
 		debug: false,
 		detectSpeakingEvents: true,
 		autoAdjustMic: false,
+		localVideo: localVideoOptions,
 		media: mediaOptions,
 		// Add the new peerConnectionConfig object
 		peerConnectionConfig: peerConnectionConfig

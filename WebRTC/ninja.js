@@ -21,6 +21,7 @@ var finishButton = document.getElementById("finishButton");
 
 var socket = io();
 var webrtc;
+var tempRoom;
 
 
 /*
@@ -44,7 +45,7 @@ function firstPhaseClick() {
 */
 function handleRoomChange (data) {
 	console.log('Changing to room: ' + data.room);
-	room = data.room;
+	tempRoom = data.room;
 	$(mentorField).text(data.mentor);
 	$(firstPhase).hide();
 	$(secondPhase).show();
@@ -66,7 +67,9 @@ function secondPhaseClick() {
 	$(firstPhase).hide();
 	$(secondPhase).hide();
 	$(thirdPhase).show();
-
+	document.getElementById("localCamBox").childNodes[0].muted = true;
+	room = tempRoom;
+	webrtc.testReadiness();
 }
 
 function handleMentorDisconnect (data) {

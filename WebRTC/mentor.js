@@ -72,6 +72,7 @@ function handleRoomChange(data) {
 	console.log('Changing to room: ' + data.room);
 	setRoom(data.room);
 	$('#ninjaName').text(data.ninja);
+	$(opts.screenBox).empty();
 	$(opts.localCamBox).empty();
 	$(chatWindow).empty();
 	webrtc.startLocalVideo();
