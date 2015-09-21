@@ -1,0 +1,121 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge,chrome=1')
+    title Ninja Toolbar
+    meta(name='description', content='')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(rel='stylesheet', href='css/bootstrap.min.css')
+    style.
+      body {
+      padding-top: 50px;
+      padding-bottom: 20px;
+      }
+    link(rel='stylesheet', href='css/main.css')
+    script(src='js/vendor/modernizr-2.8.3-respond-1.4.2.min.js')
+  body
+    //if lt IE 8
+      p.browserupgrade
+        | You are using an 
+        strong outdated
+        |  browser. Please 
+        a(href='http://browsehappy.com/') upgrade your browser
+        |  to improve your experience.
+    .container
+      // Example row of columns
+      .panel.panel-primary
+        #headingOne.panel-heading(role='tab')
+          h4.panel-title
+            div(role='button') CoderDojo
+        #collapseOne.panel-collapse.collapse.in(role='tabpanel', aria-labelledby='headingOne')
+          .panel-body
+            span.ico.glyphicon.glyphicon-menu-down.pull-right
+            span.pull-right
+              img#imgAvatar(src='/img/ninja.png', height='31', width='45')
+            .pull-right.padding-rt
+              #ninjaName.text-right Jarvis
+              #user_type.text-right
+                small Ninja
+      #accordion.panel-group(role='tablist', aria-multiselectable='true')
+        .panel.panel-primary
+          #headingTwo.panel-heading(role='tab')
+            h4.panel-title
+              a.collapsed(role='button', data-toggle='collapse', data-parent='#accordion', href='#collapseTwo', aria-expanded='false', aria-controls='collapseTwo') Presentations
+          #collapseTwo.panel-collapse.collapse.in(role='tabpanel', aria-labelledby='headingTwo')
+            .panel-body
+              div
+                .pull-left
+                  span.ico.glyphicon.glyphicon-step-backward.pull-left
+                  span.ico.glyphicon.glyphicon-step-forward.pull-left
+                .pull-right
+                  span.ico.glyphicon.glyphicon-fullscreen
+                  span.ico.glyphicon.glyphicon-volume-up
+                  span.ico.glyphicon.glyphicon-cog
+              br
+              div(style='height:200px;border:solid 1px lightgrey')
+                .text-center
+                  span.glyphicon.glyphicon-facetime-video(style='font-size:15em;color:lightgrey')
+        .panel.panel-primary
+          #headingThree.panel-heading(role='tab')
+            h4.panel-title
+              a.collapsed(role='button', data-toggle='collapse', data-parent='#accordion', href='#collapseThree', aria-expanded='false', aria-controls='collapseThree') Chats
+          #collapseThree.panel-collapse.collapse.in(role='tabpanel', aria-labelledby='headingThree')
+            #chatPanel.panel-body
+              // First option to chat with Mentor
+              #chatFirstPhase.row(style='margin-bottom:10px')
+                .col-xs-12.pull-left
+                  span.pull-left.glyphicon.glyphicon-comment(style='color:grey;font-size:2.5em;padding-right:10px')
+                  small#firstPhaseText To chat with the mentor, click on 'Chat' button
+                .col-xs-12
+                  br
+                  #firstPhaseButton.btn.btn-default.btn-block.input-sm Chat
+              // Second option after the above chat button is clicked
+              #chatSecondPhase
+                meter#myVolume.volume(height='20px', width='70%', min='-45', max='-20', high='-25', low='-40') My Volume bar
+                #localCamBox.video-box
+                | 			If everything is all good, click here.
+                #secondPhaseButton.btn.btn-default.btn-block.input-sm OK
+              br
+              // Third option : chat Window
+              #chatThirdPhase
+                div
+                  | Click this button to start sharing a window:
+                  #shareButton.btn.btn-default.btn-block.input-sm Share or change a window
+                  | 			You can change the settings for this by using the options at the top of the screen
+                  #localScreenBox.video-box
+                  br
+                  span.pull-left
+                    img(src='/img/mentor.png', height='42', width='48')
+                  .pull-left.padding-lt
+                    #mentorName.text-left Paul
+                    .text-left
+                      small Mentor
+                br
+                br
+                div
+                  .pull-right
+                    span.ico.glyphicon.glyphicon-fullscreen
+                    span.ico.glyphicon.glyphicon-volume-up
+                    span.ico.glyphicon.glyphicon-cog
+                  br
+                  #remoteCamBox.video-box.embed-responsive.embed-responsive-4by3
+                br
+                #chatWindow(style='height:200px;border:solid 1px lightgrey; overflow-y: scroll')
+                form#chatForm(action='')
+                  input#message
+                  button#submit.btn.btn-default(type='button')
+                    span.ico.glyphicon.glyphicon-ok
+                br
+                #finishButton.btn.btn-default.btn-block.input-sm Finished!
+    // /container
+    script(src='//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js')
+    script.
+      window.jQuery || document.write('<script src="js/jquery-2.1.1.min.js"><\\/script>')
+    script(src='js/vendor/bootstrap.min.js')
+    script(src='//simplewebrtc.com/latest.js')
+    script(src='/socket.io/socket.io.js')
+    script(src='js/miscHelpers.js')
+    script(src='js/dojo_rtc.js')
+    script(src='js/ninja.js')
+    script(src='js/chat.js')
