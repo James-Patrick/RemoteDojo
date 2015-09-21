@@ -16,6 +16,7 @@
     "serve-favicon": "~2.3.0",
 	"socket.io": "*",
 	"request": "*",
+	"socket.io-client": "^1.3.6",
 	"webrtc": "1.14.x",
 	"attachmediastream": "1.0.1"
   },
