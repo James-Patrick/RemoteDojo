@@ -6,10 +6,10 @@
 var fs = require('fs');
 var app = require('../app');
 var debug = require('debug')('webrtc:server');
-var http = require('http');
 var https = require('https');
 var sockets = require('../socketServer');
 
+// Retrieve private key and certificate from the fakekeys folder
 var privateKey = fs.readFileSync('./fakekeys/privatekey.pem').toString(), certificate = fs.readFileSync('./fakekeys/certificate.pem').toString();
 
 /**
@@ -20,7 +20,7 @@ var port = normalizePort(process.env.PORT || '8000');
 app.set('port', port);
 
 /**
- * Create HTTP server.
+ * Create HTTPS server.
  */
 
 var server = https.createServer({key: privateKey, cert: certificate},app);
@@ -30,7 +30,10 @@ var server = https.createServer({key: privateKey, cert: certificate},app);
  */
 
 server.listen(port);
+
+// Connects the Socket.IO logic to the newly created server.
 sockets.attach(server);
+
 server.on('error', onError);
 server.on('listening', onListening);
 
