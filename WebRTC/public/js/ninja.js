@@ -55,17 +55,20 @@ function handleRoomChange (data) {
 }
 
 function shareButtonClick() {
-	
+	$(shareButton).text('Change Shared Window')
 	webrtc.stopScreenShare();
 	webrtc.shareScreen(function (err) {
-		if (err)
+		if (err) {
 			console.log('Share Screen Error: ',err);
+			$(shareButton).text('Share Window')
+		}
 	});
 }
 
 function secondPhaseClick() {
 	$(firstPhase).hide();
 	$(secondPhase).hide();
+	$(shareButton).text('Share Window')
 	$(thirdPhase).show();
 	document.getElementById("localCamBox").childNodes[0].muted = true;
 	room = tempRoom;
@@ -81,7 +84,7 @@ function handleMentorDisconnect (data) {
 	$(thirdPhase).hide();
 	$(firstPhaseButton).show();
 	$(firstPhaseText).text("To chat with the mentor, click on 'Chat' button");
-	alert("The mentor you were working with disconnected");
+	alert("Oops! Some rogue ninja seems to have messed with something and disconnected your mentor.");
 }
 
 function finishChatClick() {

@@ -74,15 +74,14 @@ html
               #chatSecondPhase
                 meter#myVolume.volume(height='20px', width='70%', min='-45', max='-20', high='-25', low='-40') My Volume bar
                 #localCamBox.video-box
-                | 			If everything is all good, click here.
+                br
+                | 	If you can hear yourself and the bar above is reacting, click OK.
                 #secondPhaseButton.btn.btn-default.btn-block.input-sm OK
               br
               // Third option : chat Window
               #chatThirdPhase
                 div
-                  | Click this button to start sharing a window:
-                  #shareButton.btn.btn-default.btn-block.input-sm Share or change a window
-                  | 			You can change the settings for this by using the options at the top of the screen
+                  #shareButton.btn.btn-default.btn-block.input-sm Share Window
                   #localScreenBox.video-box
                   br
                   span.pull-left
