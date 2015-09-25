@@ -4,24 +4,29 @@ var fs = require('fs');
 
 var queue = [];
 var clients = {};
+var apikey = '';
+if (process.env.XIRSYS) {
+	apikey = process.env.XIRSYS;
+} else {
+	throw 'No XIRSYS api key supplied'
+}
+var identity = 'benuwa';
+var application = 'dojo';
 // Attach the websocket handling
 var io = socketio();
 
 // Function to communicate with the Xirsys api and delete a room
 function deleteRoom (roomName) {
 	console.log('deleting room: ' + roomName);
-	var apiKey = 'f61ef9ac-2510-11e5-92dd-24621fb60816';
-	var domain = 'dojodev.com';
-	var myApplication = 'dojo';
 	
 	var options = {
 		url:"https://service.xirsys.com/room",
 		method:"DELETE",
 		form: {
-			'ident': 'jamesuwa',
-			'secret': apiKey,
+			'ident': identity,
+			'secret': apikey,
 			'domain': domain,
-			'application': myApplication,
+			'application': application,
 			'room': roomName
 			}
 	};
@@ -38,18 +43,15 @@ function deleteRoom (roomName) {
 // Function to communicate with the xirsys api to create a room
 function createRoom (roomName) {
 	console.log('creating room: ' + roomName);
-	var apiKey = 'f61ef9ac-2510-11e5-92dd-24621fb60816';
-	var domain = 'dojodev.com';
-	var myApplication = 'dojo';
 	
 	var options = {
 		url:"https://service.xirsys.com/room",
 		method:"POST",
 		form: {
-			'ident': 'jamesuwa',
-			'secret': apiKey,
+			'ident': identity,
+			'secret': apikey,
 			'domain': domain,
-			'application': myApplication,
+			'application': application,
 			'room': roomName
 			}
 	};
@@ -66,17 +68,16 @@ function createRoom (roomName) {
 // Function to communicate with the xirsys api to get ICE Server info
 // Currently uses the legacy api, should be changed in the near future
 function getIceServers (cb) {
-	var apiKey = '7aa53eea-3e3c-4f41-8cad-83189ffe9272';
 	var options = {
-		url:"https://api.xirsys.com/getIceServers",
+		url:"https://service.xirsys.com/ice",
 		method:"POST",
 		form: {
-			'ident': "jamesuwa",
-			'secret': apiKey,
-			'domain': "www.testdev.com",
-			'application': 'default',
+			'ident': identity,
+			'secret': apikey,
+			'domain': domain,
+			'application': application,
 			'room': "default",
-			'secure': 1
+			'timeout': 300
 		}
 	};
 	request(options, function (err, response, body) {

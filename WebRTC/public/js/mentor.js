@@ -99,6 +99,15 @@ function handleNinjaDisconnect(data) {
 	$(firstPhase).show();
 }
 
+window.onbeforeunload = function(){
+	if (webrtc) {
+		webrtc.stopLocalVideo();
+		webrtc.leaveRoom();
+		webrtc.connection.disconnect();
+		webrtc = null;
+	}
+}
+
 socket.on('queueUpdate', handleQueueUpdate);
 socket.on('changeRoom', handleRoomChange);
 socket.on('iceServers', handleIceServers);

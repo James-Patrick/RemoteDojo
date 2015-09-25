@@ -99,6 +99,15 @@ function finishChatClick() {
 	socket.emit('leaving', {});
 }
 
+window.onbeforeunload = function(){
+	if (webrtc) {
+		webrtc.stopLocalVideo();
+		webrtc.leaveRoom();
+		webrtc.connection.disconnect();
+		webrtc = null;
+	}
+}
+
 socket.on('iceServers',handleIceServers);
 firstPhaseButton.onclick = firstPhaseClick;
 socket.on('changeRoom', handleRoomChange);
