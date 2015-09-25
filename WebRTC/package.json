@@ -18,7 +18,13 @@
 	"request": "*",
 	"socket.io-client": "^1.3.6",
 	"webrtc": "1.14.x",
-	"attachmediastream": "1.0.1"
+	"attachmediastream": "1.0.1",
+	"dry-layers": "*",
+	"mongodb":"*",
+	"passport":"*",
+	"passport-local":"*",
+	"express-session":"*",
+	"stylus":"*"
   },
   "devDependencies": {
     "mocha": "*",

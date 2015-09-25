@@ -8,28 +8,32 @@ var app = require('../app');
 var debug = require('debug')('webrtc:server');
 var https = require('https');
 var sockets = require('../socketServer');
+var dryLayers = require('dry-layers');
 
 // Retrieve private key and certificate from the fakekeys folder
 var privateKey = fs.readFileSync('./fakekeys/privatekey.pem').toString(), certificate = fs.readFileSync('./fakekeys/certificate.pem').toString();
+
+var application = new dryLayers.Application(app);
+application.setDatabaseUrl('mongodb://localhost:27017/coderdojo');
 
 /**
  * Get port from environment and store in Express.
  */
 
 var port = normalizePort(process.env.PORT || '8000');
-app.set('port', port);
 
 /**
  * Create HTTPS server.
  */
 
-var server = https.createServer({key: privateKey, cert: certificate},app);
+var server = https.createServer({key: privateKey, cert: certificate},application.getRequestListener());
 
 /**
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
+application.start(server, 8000);
+dryLayers.Registry.setApplication(application);
 
 // Connects the Socket.IO logic to the newly created server.
 sockets.attach(server);

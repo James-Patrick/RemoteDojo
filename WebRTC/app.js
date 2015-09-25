@@ -23,6 +23,19 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+var dry_layers = require('dry-layers');
+app.use('/dry-layers', dry_layers.StaticService.createRouter());
+var passport = require('passport');
+passport.use(dry_layers.SecurityService.createStrategy());
+app.use(require('express-session')({
+	secret: 'keyboard cat',
+	receive: false,
+	saveUnitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use('/', dry_layers.SecurityService.createRouter());
+
 app.use('/', routes);
 app.use('/Mentor',mentor);
 app.use('/Ninja',ninja);

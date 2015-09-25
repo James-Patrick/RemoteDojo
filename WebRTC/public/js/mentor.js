@@ -17,6 +17,12 @@ var fullScreenButton = document.getElementById("screenFull");
 var socket = io();
 var webrtc;
 
+signOut.onclick = function() {
+	jQuery.post('/sign_out', {}, function() {
+		window.close();
+	});
+}
+
 fullScreenButton.onclick = function() {
 	var myVideo = opts.screenBox.getElementsByTagName('video');
 	if (myVideo) {
@@ -99,7 +105,7 @@ function handleNinjaDisconnect(data) {
 	$(firstPhase).show();
 }
 
-window.onbeforeunload = function(){
+document.onunload = function(){
 	if (webrtc) {
 		webrtc.stopLocalVideo();
 		webrtc.leaveRoom();
@@ -113,8 +119,20 @@ socket.on('changeRoom', handleRoomChange);
 socket.on('iceServers', handleIceServers);
 socket.on('otherDisconnect', handleNinjaDisconnect);
 
+$.ajax({
+	dataType: "json",
+	error: function(jqXHR, textStatus, errorThrow) {
+		alert('AHHHH');
+	},
+	success: function(data, textStatus, jqXHR) {
+		$(nameField).text(data.firstName);
+		socket.emit('iceRequest',{mentor : data.firstName});
+	},
+	type: "GET",
+	url: "/users/signed_in"
+});
+
 $(firstPhase).show();
 $(secondPhase).hide();
-$(nameField).text(getParameterByName('user'));
 $('#collapseTwo').collapse("hide");
-socket.emit('iceRequest', {mentor : getParameterByName('user')});
+//socket.emit('iceRequest', {mentor : getParameterByName('user')});
