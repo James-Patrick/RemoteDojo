@@ -12,6 +12,7 @@ if (process.env.XIRSYS) {
 }
 var identity = 'benuwa';
 var application = 'dojo';
+var domain = 'coderdojo-uwa.com.au';
 // Attach the websocket handling
 var io = socketio();
 
