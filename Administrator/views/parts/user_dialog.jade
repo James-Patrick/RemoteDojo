@@ -8,6 +8,12 @@
             div(class="modal-body")                      
                 form(role="form")
                     div(class="form-group")
+                        label(style="width:100%") Avatar:
+                        img#user-dialog-avatar
+                    div(class="form-group")
+                        input#user-dialog-file(type="file" accept="image/*") 
+                    input(type="hidden" name="avatar")   
+                    div(class="form-group")
                         label(style="width:100%") First name:
                             input(class="form-control" style="font-weight:normal" type="text", name="firstName" placeholder="first name")                     
                     div(class="form-group")
@@ -15,22 +21,10 @@
                             input(class="form-control" style="font-weight:normal" type="text", name="lastName" placeholder="last name")                     
                     div(class="form-group")
                         div(style="font-weight:bold") Role:
-                    div#user-dialog-role(style="margin-bottom:12pt")
-                        each role, i in roles
-                            div(class="radio")
-                                label
-                                    - var name = role.name ? role.name : 'null'
-                                    input(type="radio" name="roles[]" value=name) 
-                                    | #{name} 
+                        div#user-dialog-roles(style="margin-bottom:12pt")
                     div(class="form-group")
                         div(style="font-weight:bold") Dojos:
-                    div#user-dialog-dojos(style="margin-bottom:12pt")
-                        each dojo, i in dojos
-                            div(class="checkbox")
-                                label
-                                    - var name = dojo.name ? dojo.name : 'null'
-                                    input(type="checkbox" name="dojos[]" value=dojo._id) 
-                                    | #{name} 
+                        div#user-dialog-dojos(style="margin-bottom:12pt")                   
                     div(class="form-group")
                         label(style="width:100%") Email:
                             input(class="form-control" style="font-weight:normal" type="email", name="email" placeholder="email") 
@@ -45,10 +39,30 @@
 script.
 
     function UserDialog() {
+        
+        var self = DataDialog('user');
+ 
+        $('#user-dialog').on('show.bs.modal', function (e) {
+            var src = $('input[name="avatar"]').val();
+            $('#user-dialog-avatar').attr('src', src);
+        });
 
-        var that = DataDialog('user');
+        $('#user-dialog').on('hide.bs.modal', function (e) {
+            var src = $('#user-dialog-avatar').attr('src');
+            $('input[name="avatar"]').val(src);
+        });
 
-        that.load = function(callback) {
+        $('#user-dialog-file').on('change', function(changed) {
+            var reader = new FileReader();
+            reader.onload = function (loaded) {
+                var src = loaded.target.result;
+                $('#user-dialog-avatar').attr('src', src);
+             };
+            var file = changed.target.files[0];
+            reader.readAsDataURL(file);
+        });
+
+        self.load = function(callback) {
             data_gateway = DataGateway('dojo');
             data_gateway.get(function (err, data) {
                 var divs = [];
@@ -66,11 +80,34 @@ script.
                     div.append(label);
                     divs.push(div);
                 });
-                $(that.id + '-dojos').empty().append(divs);
-                callback();
+                $(self.id + '-dojos').empty().append(divs);
             });
+            var roles = [ 
+                "Administrator", 
+                "Champion", 
+                "Mentor" 
+            ];
+            var divs = [];
+            $.each(roles, function (i, role) {
+                var label = $('<label/>');
+                var input = $('<input/>').attr({
+                    type: 'radio',
+                    name: 'roles[]', 
+                    value: role
+                });
+                label.append(input);
+                label.append(role);
+                var div = $('<div/>')
+                    .addClass('radio');
+                div.append(label);
+                divs.push(div);
+            });
+            $(self.id + '-roles').empty().append(divs);
+            data_gateway = DataGateway('role');
+            data_gateway.get(function (err, data) {
+            });
+            callback();
         }        
-
-        return that;
+        return self;
     }
 

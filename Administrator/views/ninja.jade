@@ -1,0 +1,50 @@
+﻿extends layout
+
+block content
+
+
+    div(style="padding-bottom:10pt")
+        img#avatar(src="#{user.avatar}")
+
+    div
+        p#pseudonym #{user.pseudonym}
+
+    div
+        a(class="btn btn-default" style="margin-bottom:16pt" href="/sign_out" role="button") Sign out
+
+
+    include ./parts/meeting_user_dialog
+
+    script(src='/dry-layers/data_gateway.js')
+
+    script(src='/dry-layers/dialog.js')
+
+    script(src='/dry-layers/security_gateway.js')
+
+    script.
+
+        $(document).ready(function () {
+            $('img').click(function() {       
+                var dialog = MeetingUserDialog();
+                dialog.load(function() {
+                    var data = { 
+                       avatar : $('#avatar').attr('src'),
+                       pseudonym : $('#pseudonym').text() 
+                    };
+                    dialog.setData(data);
+                    dialog.modal(function (result) {
+                        if (result == "ok") {
+                            data = dialog.getData();
+                            gateway = SecurityGateway();
+                            gateway.update(data);
+                            $('#avatar').attr('src', data.avatar);
+                            $('#pseudonym').text(data.pseudonym);
+                        }
+                    });               
+                });
+            });
+        });
+
+
+
+

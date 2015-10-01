@@ -7,19 +7,14 @@
                 h4(class="modal-title") Meeting
             div(class="modal-body")                      
                 form(role="form")
+                    input(type="hidden" name="name")                     
+                    div(class="form-group")
+                        label(style="width:100%") Location:
+                        select#meeting-dialog-dojos(class="form-control" name="location")
+                    input(type="hidden" name="location")                     
                     div(class="form-group")
                         label(style="width:100%") Password:
-                            input(class="form-control" style="font-weight:normal" type="text", name="password" placeholder="password")                     
-                    div(class="form-group")
-                        div(style="font-weight:bold") Dojo:
-                    div#meeting-dialog-dojos
-                        each dojo, i in dojos
-                            div(class="radio")
-                                label
-                                    - var name = dojo.name ? dojo.name : 'null'
-                                    input(type="radio" name="dojo[]" value=dojo._id) 
-                                    | #{name} 
-            
+                            input(class="form-control" style="font-weight:normal" type="text" name="password" placeholder="password")                     
             div(class="modal-footer")
                 button(type="button" class="btn btn-danger pull-left" data-dismiss="modal" value="remove") Delete
                 button(type="button" class="btn btn-primary" data-dismiss="modal" value="ok") OK
@@ -29,31 +24,31 @@ script.
 
     function MeetingDialog() {
 
-        var that = DataDialog('meeting');
+        var self = DataDialog('meeting');
+        
+        $('#meeting-dialog').on('hide.bs.modal', function (e) {
+            var selected = $('#meeting-dialog-dojos option:selected');
+            var name = selected.text();
+            $('input[name="name"]').val(name);
+        })
 
-        that.load = function(callback) {
+        self.load = function(callback) {
             data_gateway = DataGateway('dojo');
             data_gateway.get(function (err, data) {
                 var divs = [];
                 $.each(data, function (i, dojo) {
-                    var label = $('<label/>');
-                    var input = $('<input/>').attr({
-                        type: 'checkbox',
-                        name: 'dojos[]', 
+                    var option = $('<option/>').attr({
                         value: dojo._id
                     });
-                    label.append(input);
-                    label.append(dojo.name);
-                    var div = $('<div/>')
-                        .addClass('checkbox');
-                    div.append(label);
-                    divs.push(div);
+                    option.append(dojo.name);
+                    divs.push(option);
                 });
-                $(this.id + '-dojos').empty().append(divs);
+                $(self.id + '-dojos').empty().append(divs);
                 callback();
             });
-        }        
-
-        return that;
+        }
+              
+        return self;
     }
+
 

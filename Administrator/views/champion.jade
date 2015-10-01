@@ -2,7 +2,14 @@
 
 block content
 
-    a(class="btn btn-default" style="margin-bottom:16pt" href="/sign_out" role="button") Sign out
+    div(style="padding-bottom:10pt")
+        img(src="#{user.avatar}")
+
+    div
+        p #{user.firstName} #{user.lastName}
+
+    div
+        a(class="btn btn-default" style="margin-bottom:16pt" href="/sign_out" role="button") Sign out
 
     div#meeting-list(class="panel panel-default")
         div(class="panel-heading")
@@ -33,8 +40,11 @@ block content
       
         $(document).ready(function () {
           
-            List('meeting', MeetingDialog());
-           
+            var list = List('meeting', MeetingDialog());
+            list.getItemText = function(data) {
+                return data.name;
+            }
+                      
             list = List('user', UserDialog());
             list.getItemText = function(data) {
                 return data.firstName + ' ' + data.lastName;

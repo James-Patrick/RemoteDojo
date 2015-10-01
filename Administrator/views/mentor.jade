@@ -1,0 +1,13 @@
+﻿extends layout
+
+block content
+
+    div(style="padding-bottom:10pt")
+        img(src="#{user.avatar}")
+
+    div
+        p #{user.firstName} #{user.lastName}
+
+    div
+        a(class="btn btn-default" style="margin-bottom:16pt" href="/sign_out" role="button") Sign out
+

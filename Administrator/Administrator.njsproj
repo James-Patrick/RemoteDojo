@@ -31,6 +31,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="app.js" />
+    <Compile Include="routes\mentor.js" />
+    <Compile Include="routes\ninja.js" />
     <Compile Include="routes\champion.js" />
     <Compile Include="routes\administrator.js" />
     <Compile Include="routes\index.js" />
@@ -39,13 +41,17 @@
     <Content Include="package.json" />
     <Content Include="public\stylesheets\style.styl" />
     <Content Include="README.md" />
+    <Content Include="views\mentor.jade" />
+    <Content Include="views\ninja.jade" />
     <Content Include="views\champion.jade" />
     <Content Include="views\administrator.jade" />
     <Content Include="views\index.jade" />
     <Content Include="views\layout.jade" />
     <Content Include="views\error.jade" />
     <Content Include="views\parts\role_dialog.jade" />
+    <Content Include="views\parts\meeting_user_dialog.jade" />
     <Content Include="views\parts\user_dialog.jade" />
+    <Content Include="views\parts\avatar_dialog.jade" />
     <Content Include="views\parts\meeting_dialog.jade" />
   </ItemGroup>
   <ItemGroup>

@@ -10,28 +10,7 @@ block content
     p
         a(href='/champion') Champion
     p
-        a#mylink(href='#') Administrator (sidebar)
-
-    script.
-
-        $(document).ready(function () {
-
-            $('#mylink').click(function () {
-                event.preventDefault();
-                window.open("/administrator", "Administrator - CoderDojo", "menubar=no,"
-                    + "toolbar=no," 
-                    + "location=no," 
-                    + "directories=no," 
-                    + "status=no,"
-                    + "scrollbars=no,"
-                    + "resizable=no,"
-                    + "dependent,"
-                    + "width=320,"
-                    + "height=640,"
-                    + "left=0,"
-                    + "top=0");
-            });
-
-        });
-
+        a(href='/mentor') Mentor
+    p
+        a(href='/ninja') Ninja
 

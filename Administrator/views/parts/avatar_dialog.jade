@@ -1,0 +1,52 @@
+﻿div#avatar-dialog(class="modal" tabindex="-1" role="dialog")
+    div(class="modal-dialog" role="document")
+        div(class="modal-content")
+            div(class="modal-header")
+                button(type="button" class="close" data-dismiss="modal")
+                    span &times
+                h4(class="modal-title") Avatar
+            div(class="modal-body")                      
+                form(role="form")
+                    div(class="form-group")
+                        label(style="width:100%") Image:
+                        img#avatar-dialog-image
+                    div(class="form-group")
+                        input#avatar-dialog-file(type="file" accept="image/*") 
+                    input(type="hidden" name="image")   
+                    div(class="form-group")
+                        label(style="width:100%") Name:
+                            input(class="form-control" style="font-weight:normal" type="text", name="name" placeholder="name")                     
+            div(class="modal-footer")
+                button(type="button" class="btn btn-danger pull-left" data-dismiss="modal" value="remove") Delete
+                button(type="button" class="btn btn-primary" data-dismiss="modal" value="ok") OK
+                button(type="button" class="btn btn-default" data-dismiss="modal" value="cancel") Cancel
+
+script.
+
+    function AvatarDialog() {
+        
+        var self = DataDialog('avatar');
+ 
+        $('#avatar-dialog').on('show.bs.modal', function (e) {
+            var src = $('input[name="image"]').val();
+            $('#avatar-dialog-image').attr('src', src);
+        });
+
+        $('#avatar-dialog').on('hide.bs.modal', function (e) {
+            var src = $('#avatar-dialog-image').attr('src');
+            $('input[name="image"]').val(src);
+        });
+
+        $('#avatar-dialog-file').on('change', function(changed) {
+            var reader = new FileReader();
+            reader.onload = function (loaded) {
+                var src = loaded.target.result;
+                $('#avatar-dialog-image').attr('src', src);
+             };
+            var file = changed.target.files[0];
+            reader.readAsDataURL(file);
+        });
+
+        return self;
+    }
+
