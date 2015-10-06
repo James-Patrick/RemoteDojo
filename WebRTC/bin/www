@@ -33,7 +33,7 @@ var server = https.createServer({key: privateKey, cert: certificate},application
  */
 
 application.start(server, 8000);
-dryLayers.Registry.setApplication(application);
+// dryLayers.Registry.setApplication(application);
 
 // Connects the Socket.IO logic to the newly created server.
 sockets.attach(server);
