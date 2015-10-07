@@ -24,9 +24,21 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 var dry_layers = require('dry-layers');
+dry_layers.Registry.setDatabaseUrl('mongodb://localhost:27017/coderdojo');
+dry_layers.DataService.connect();
 app.use('/dry-layers', dry_layers.StaticService.createRouter());
 var passport = require('passport');
 passport.use(dry_layers.SecurityService.createStrategy());
+passport.use('meeting', dry_layers.MeetingService.createStrategy());
+var ObjectID = require('mongodb').ObjectID;
+dry_layers.MeetingService.createUser = function () {
+    return {
+        _id : (new ObjectID()).toString(),
+        pseudonym : 'Anonymous',
+        roles : ['Ninja'],
+        avatar : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAFQSURBVHhe7dJBDcAwAAOxdPw5b32Mhc9SFAJ3tr13QT3/B1UAuALAFQCuAHAFgCsAXAHgCgBXALgCwBUArgBwBYArAFwB4AoAVwC4AsAVAK4AcAWAKwBcAeAKAFcAuALAFQCuAHAFgCsAXAHgCgBXALgCwBUArgBwBYArAFwB4AoAVwC4AsAVAK4AcAWAKwBcAeAKAFcAuALAFQCuAHAFgCsAXAHgCgBXALgCwBUArgBwBYArAFwB4AoAVwC4AsAVAK4AcAWAKwBcAeAKAFcAuALAFQCuAHAFgCsAXAHgCgBXALgCwBUArgBwBYArAFwB4AoAVwC4AsAVAK4AcAWAKwBcAeAKAFcAuALAFQCuAHAFgCsAXAHgCgBXALgCwBUArgBwBYArAFwB4AoAVwC4AsAVAK4AcAWAKwBcAeAKAFcAuALAFQCuAHAFgCsA2vYB0oQB/7EaM24AAAAASUVORK5CYII="
+    } 
+}
 app.use(require('express-session')({
 	secret: 'keyboard cat',
 	receive: false,
@@ -35,6 +47,8 @@ app.use(require('express-session')({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/', dry_layers.SecurityService.createRouter());
+app.use('/', dry_layers.MeetingService.createRouter());
+app.use('/meetings', dry_layers.DataService.createRouter('meeting'));
 
 app.use('/', routes);
 app.use('/Mentor',mentor);

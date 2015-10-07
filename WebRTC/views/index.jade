@@ -2,34 +2,21 @@ extends layout
 
 block content
     h1#title Demo Start Page
-    form(onsubmit='return popoutMentor()')
-      h2 Mentor Log-in
-      br
-      | Name: 
-      input#mentorName(type='text', name='user')
-      br
-      br
-      input(type='submit', value='Enter')
+    h2 Mentor Entry:
+    button(onclick='return popoutMentor()') Enter!
     br
     br
-    br
-    form(onsubmit='return popoutNinja()')
-      h2 Ninja Entry
-      br
-      |	Name: 
-      input#ninjaName(type='text', name='user')
-      br
-      br
-      input(type='submit', value='Enter')
+    h2 Ninja Entry:
+    button(onclick='return popoutNinja()') Enter!
     script(src='//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js')
     script.
       function popoutMentor() {
-      var url = "Mentor?user=" + $("#mentorName").val();
+      var url = "Mentor";
       var w = window.open(url, "_blank", "status=no, menubar=no, titlebar=yes, toolbar=no, location=no, width=300, height=620, scrollbars=yes", false);
       return w?false:true;
       }
       function popoutNinja() {
-      var url = "Ninja?user=" + $("#ninjaName").val();
+      var url = "Ninja";
       var w = window.open(url, "_blank", "status=no, menubar=no, titlebar=yes, toolbar=no, location=no, width=300, height=620, scrollbars=yes", false);
       return w?false:true;
       }
@@ -49,5 +36,8 @@ block content
       return false;
       }
       -->
+    br
+    br
+    br
     a(href='coderdojo-screen-share.xpi', hash='sha256:A22D0B57071C46A54D51278D61006F5E76A1FFC817081BD64020257C051BBC9C', onclick='return install(event);') Install Extension!
 

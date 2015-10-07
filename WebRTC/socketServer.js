@@ -35,8 +35,10 @@ function deleteRoom (roomName) {
 		if (!err && response.statusCode == 200) {
 			console.log(body)
 		}
-		else {
-			console.log('Something bad happened\n' + body + '\n' + err + '\n' + response.statusCode);
+		else if (err) {
+			console.log('Something bad happened\n' + body + '\n' + err);
+		} else {
+			console.log('Something bad happened\n' + body + '\n' + response.statusCode);
 		}
 	});
 }
@@ -60,8 +62,10 @@ function createRoom (roomName) {
 		if (!err && response.statusCode == 201) {
 			console.log(body)
 		}
-		else {
-			console.log('Something bad happened\n' + body + '\n' + err + '\n' + response.statusCode);
+		else if (err) {
+			console.log('Something bad happened\n' + body + '\n' + err);
+		} else {
+			console.log('Something bad happened\n' + body + '\n' + response.statusCode);
 		}
 	});
 }

@@ -116,13 +116,26 @@ secondPhaseButton.onclick = secondPhaseClick;
 socket.on('otherDisconnect', handleMentorDisconnect);
 finishButton.onclick = finishChatClick;
 
+$.ajax({
+	dataType: "json",
+	error: function(jqXHR, textStatus, errorThrow) {
+		alert('AHHHH');
+	},
+	success: function(data, textStatus, jqXHR) {
+		$(nameField).text(data.pseudonym);
+		socket.emit('iceRequest',{ninja : data.pseudonym});
+	},
+	type: "GET",
+	url: "/users/signed_in"
+});
+
 $(localCamBox).hide();
 $(firstPhase).show();
 $(secondPhase).hide();
 $(thirdPhase).hide();
 $(nameField).text(getParameterByName('user'));
 $('#collapseTwo').collapse("hide");
-socket.emit('iceRequest', {ninja : getParameterByName('user')});
+//socket.emit('iceRequest', {ninja : getParameterByName('user')});
 
 
 

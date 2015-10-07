@@ -14,7 +14,7 @@
     "body-parser": "^1.14.1",
     "cookie-parser": "^1.4.0",
     "debug": "^2.2.0",
-    "dry-layers": "file:..\\..\\dry-layers\\dry-layers",
+    "dry-layers": "*",
     "express": "^4.13.3",
     "express-session": "^1.11.3",
     "jade": "^1.11.0",
