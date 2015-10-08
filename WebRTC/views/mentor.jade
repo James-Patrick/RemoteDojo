@@ -1,3 +1,4 @@
+
 doctype html
 html
   head
@@ -15,100 +16,106 @@ html
     link(rel='stylesheet', href='css/main.css')
     script(src='js/vendor/modernizr-2.8.3-respond-1.4.2.min.js')
   body
-    .container
+    .container-fluid
       // Example row of columns
-      .panel.panel-primary
-        #headingOne.panel-heading(role='tab')
-          h4.panel-title
-            div(role='button') CoderDojo
-        #collapseOne.panel-collapse.collapse.in(role='tabpanel', aria-labelledby='headingOne')
-          .panel-body
-            #signOut.btn.btn-default.btn-block.input-sm.pull-right Sign Out
-            span.pull-right
-              img(src='/img/mentor.png', height='42', width='48')
-            .pull-right.padding-rt
-              #nameField.text-right Paul
-              #user_type.text-right
-                small Mentor
-      #accordion.panel-group(role='tablist', aria-multiselectable='true')
-        .panel.panel-primary
-          #headingTwo.panel-heading(role='tab')
+      .row
+        .col-xs-12.col-md-3.col-lg-3.col-sm-4.panel.panel-primary
+          #headingOne.panel-heading(role='tab')
             h4.panel-title
-              a.collapsed(role='button', data-toggle='collapse', data-parent='#accordion', href='#collapseTwo', aria-expanded='false', aria-controls='collapseTwo') Presentations
-          #collapseTwo.panel-collapse.collapse.in(role='tabpanel', aria-labelledby='headingTwo')
+              div(role='button') CoderDojo
+          #collapseOne.panel-collapse.collapse.in(role='tabpanel', aria-labelledby='headingOne')
             .panel-body
-              div
-                .pull-left
-                  span.ico.glyphicon.glyphicon-step-backward.pull-left
-                  span.ico.glyphicon.glyphicon-step-forward.pull-left
-                .pull-right
-                  span.ico.glyphicon.glyphicon-fullscreen
-                  span.ico.glyphicon.glyphicon-volume-up
-                  span.ico.glyphicon.glyphicon-cog
-              br
-              div(style='height:200px;border:solid 1px lightgrey')
-                .text-center
-                  span.glyphicon.glyphicon-facetime-video(style='font-size:15em;color:lightgrey')
-        .panel.panel-primary
-          #headingThree.panel-heading(role='tab')
-            h4.panel-title
-              a.collapsed(role='button', data-toggle='collapse', data-parent='#accordion', href='#collapseThree', aria-expanded='false', aria-controls='collapseThree') Chats
-          #collapseThree.panel-collapse.collapse.in(role='tabpanel', aria-labelledby='headingThree')
-            #chatPanel.panel-body
-              // First option to chose Ninjas
-              #firstPhase
-                .row(style='margin-bottom:10px')
-                  .col-xs-12.pull-left
-                    span.pull-left.glyphicon.glyphicon-comment(style='color:grey;font-size:2.5em;padding-right:10px')
-                    small#firstPhaseText There are 2 ninjas in queue waiting to chat with mentor
-                #helpQueue
-                  small(style='padding-top:30px') To chat with a ninja click on chat button
-                  .checkbox
-                    label
-                      input(type='checkbox')
-                      small
-                        img(src='', height='42', width='42')
-                  .checkbox
-                    label
-                      input(type='checkbox')
-                      small
-                        img(src='', height='42', width='42')
-                  a.btn.btn-default.btn-block.input-sm Chat
-              br
-              // Second option : chat Window
-              #secondPhase
+              #signOut.btn.btn-default.btn-block.input-sm.pull-right Sign Out
+              span.pull-right
+                img(src='/img/mentor.png', height='42', width='48')
+              .pull-right.padding-rt
+                #nameField.text-right Paul
+                #user_type.text-right
+                  small Mentor
+      #accordion .panel-group(role='tablist', aria-multiselectable='true')
+        .row
+          .col-xs-12.col-md-3.col-lg-3.col-sm-4.panel.panel-primary
+            #headingTwo.panel-heading(role='tab')
+              h4.panel-title
+                a.collapsed(role='button', data-toggle='collapse', data-parent='#accordion', href='#collapseTwo', aria-expanded='false', aria-controls='collapseTwo') Presentations
+            #collapseTwo.panel-collapse.collapse.in(role='tabpanel', aria-labelledby='headingTwo')
+              .panel-body
                 div
-                  | My Face:
-                  #localCamBox.video-box
-                  meter#myVolume.volume(height='20px', width='100%', min='-45', max='-20', high='-25', low='-40') My Volume bar
-                br
-                br
-                div
-                  span.pull-left
-                    img(src='/img/ninja.png', height='31', width='45')
-                  .pull-left.padding-lt
-                    #ninjaName.text-left Paul
-                    meter#ninjaVolume(height='20px', width='100%', min='-45', max='-20', high='-25', low='-40')
-                    .text-left
-                      small Ninja's Screen
-                  br
+                  .pull-left
+                    span.ico.glyphicon.glyphicon-step-backward.pull-left
+                    span.ico.glyphicon.glyphicon-step-forward.pull-left
                   .pull-right
-                    button#screenFull.btn.btn-default(type='button')
-                      span.ico.glyphicon.glyphicon-fullscreen
-                    span.ico.glyphicon.glyphicon-volume-up(<='', span='')
-                      span.ico.glyphicon.glyphicon-cog
+                    span.ico.glyphicon.glyphicon-fullscreen
+                    span.ico.glyphicon.glyphicon-volume-up
+                    span.ico.glyphicon.glyphicon-cog
                 br
+                div(style='height:200px;border:solid 1px lightgrey')
+                  .text-center
+                    span.glyphicon.glyphicon-facetime-video(style='font-size:15em;color:lightgrey')
+        #chats.row
+          #chat_content.col-xs-12.col-md-offset-9.col-md-3.col-lg-offset-9.col-lg-3.col-sm-offset-8.col-sm-4.panel.panel-primary
+            #headingThree.panel-heading(role='tab')
+              h4.panel-title(style='width:350px')
+                a.collapsed(role='button', data-toggle='collapse', data-parent='#accordion', href='#collapseThree', aria-expanded='false', aria-controls='collapseThree') Chats
+            #collapseThree.panel-collapse.collapse.in(role='tabpanel', aria-labelledby='headingThree')
+              #chatPanel.panel-body
+                // First option to chose Ninjas
+                #firstPhase
+                  .row(style='margin-bottom:10px')
+                    .col-xs-12.pull-left
+                      span.pull-left.glyphicon.glyphicon-comment(style='color:grey;font-size:2.5em;padding-right:10px')
+                      small#firstPhaseText There are 2 ninjas in queue waiting to chat with mentor
+                  #helpQueue
+                    small(style='padding-top:30px') To chat with a ninja click on chat button
+                    .checkbox
+                      label
+                        input(type='checkbox')
+                        small
+                          img(src='', height='42', width='42')
+                    .checkbox
+                      label
+                        input(type='checkbox')
+                        small
+                          img(src='', height='42', width='42')
+                    a.btn.btn-default.btn-block.input-sm Chat
                 br
-                #screenBox.video-box.embed-responsive.embed-responsive-4by3
-                br
-                #chatWindow(style='height:200px;border:solid 1px lightgrey; overflow-y:scroll')
-                form#chatForm(action='')
-                  input#message
-                  button#submit.btn.btn-default(type='button')
-                    span.ico.glyphicon.glyphicon-ok
-                br
+                // Second option : chat Window
+                #secondPhase
+                  div
+                    | My Face:
+                    #localCamBox.video-box
+                    meter#myVolume.volume(height='20px', width='100%', min='-45', max='-20', high='-25', low='-40') My Volume bar
+                  br
+                  br
+                  #box
+                    #screenBox2
+                      span.pull-left
+                        img(src='/img/ninja.png', height='31', width='45')
+                      .pull-left.padding-lt
+                        #ninjaName.text-left Paul
+                        meter#ninjaVolume(height='20px', width='100%', min='-45', max='-20', high='-25', low='-40')
+                        .text-left
+                          small Ninja's Screen
+                      br
+                      .pull-right
+                        button#screenFull.btn.btn-default(type='button')
+                          span.ico.glyphicon.glyphicon-fullscreen
+                        span.ico.glyphicon.glyphicon-volume-up
+                        span.ico.glyphicon.glyphicon-cog
+                    br
+                    br
+                    #screenBox.col-lg-12.video-box.embed-responsive.embed-responsive-4by3
+                    br
+                  #chatWindow(style='height:200px;border:solid 1px lightgrey; overflow-y:scroll')
+                  form#chatForm(action='')
+                    br
+                    .col-xs-9
+                      input#message.form-control(type='text')
+                    button#submit.col-xs-3.btn.btn-default(type='button')
+                      span.ico.glyphicon.glyphicon-ok
+                  br
     // /container
-    script(src='//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js')
+    script(src='http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js')
     script(src='js/vendor/bootstrap.min.js')
     script(src='//simplewebrtc.com/latest.js')
     script(src='/socket.io/socket.io.js')
