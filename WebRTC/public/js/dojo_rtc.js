@@ -68,7 +68,8 @@ function webrtcInit(peerConnectionConfig, opts, video) {
 		if (container) {
 			var newContainer = document.createElement('div');
 			newContainer.id = 'container_' + webrtc.getDomId(peer);
-			$(newContainer).addClass("video-box embed-responsive embed-responsive-4by3");
+			//$(newContainer).addClass("video-box embed-responsive embed-responsive-4by3");
+			$(newContainer).addClass("embed-responsive embed-responsive-4by3");
 			$(video).addClass("embed-responsive-item");
 			newContainer.appendChild(video);
 			container.appendChild(newContainer);
