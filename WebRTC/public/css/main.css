@@ -27,14 +27,14 @@ input[type='file']	{border-radius: 0}
 /*NEW CODE ADDED*/
 @media (min-width: 992px) { 
 	#chats{position:absolute;top:50px;right:10px;}
-	#screenBox2 {position:absolute;top:0px; width:190%;right:99%;}
-	#screenBox {position:absolute;top:0px; width:190%;height:auto;right:99%;}
+	#screenBox2 {position:absolute;top:0px; width:190%;right:105%;}
+	#screenBox {position:absolute;top:10%; width:190%;height:auto;right:105%;}
 }
 
 @media (min-width: 768px) and (max-width: 992px){
 	#chats{position:absolute;top:50px;right:10px;}
-	#screenBox2 {position:absolute;top:0px; width:100%;right:99%;}
-	#screenBox {position:absolute;top:80px; width:100%;right:99%;}
+	#screenBox2 {position:absolute;top:0px; width:100%;right:105%;}
+	#screenBox {position:absolute;top:80px; width:100%;right:105%;}
 }
 
 .video-box {
