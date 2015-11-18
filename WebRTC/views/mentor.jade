@@ -27,7 +27,7 @@ html
             .panel-body
               #signOut.btn.btn-default.btn-block.input-sm.pull-right Sign Out
               span.pull-right
-                img#mentorAvatar(src='/img/mentor.png', height='42', width='48')
+                img#mentorAvatar(onerror='handleBadAvatar()', src='/users/signed_in/avatar', height='42', width='48')
               .pull-right.padding-rt
                 #nameField.text-right Mentor
                 #user_type.text-right

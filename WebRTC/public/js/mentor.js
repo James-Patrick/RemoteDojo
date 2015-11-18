@@ -110,6 +110,7 @@ function handleNinjaDisconnect(data) {
 function handleBadAvatar(){
 	mentorAvatar.onerror = "";
 	mentorAvatar.src= "/img/mentor.png";
+	return true;
 }
 
 document.onunload = function(){
@@ -120,8 +121,6 @@ document.onunload = function(){
 		webrtc = null;
 	}
 }
-mentorAvatar.src = "users/signed_in/avatar";
-mentorAvatar.onError = handleBadAvatar();
 
 socket.on('queueUpdate', handleQueueUpdate);
 socket.on('changeRoom', handleRoomChange);
