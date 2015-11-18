@@ -120,9 +120,8 @@ document.onunload = function(){
 		webrtc = null;
 	}
 }
-
-mentorAvatar.onerror = handleBadAvatar();
 mentorAvatar.src = "users/signed_in/avatar";
+mentorAvatar.onError = handleBadAvatar();
 
 socket.on('queueUpdate', handleQueueUpdate);
 socket.on('changeRoom', handleRoomChange);
