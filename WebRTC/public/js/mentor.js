@@ -14,6 +14,8 @@ var secondPhase = document.getElementById("secondPhase");
 
 var fullScreenButton = document.getElementById("screenFull");
 
+var mentorAvatar = document.getElementById("mentorAvatar");
+
 var socket = io();
 var webrtc;
 
@@ -105,6 +107,11 @@ function handleNinjaDisconnect(data) {
 	$(firstPhase).show();
 }
 
+function handleBadAvatar(){
+	mentorAvatar.onerror = "";
+	mentorAvatar.src= "/img/mentor.png";
+}
+
 document.onunload = function(){
 	if (webrtc) {
 		webrtc.stopLocalVideo();
@@ -113,6 +120,9 @@ document.onunload = function(){
 		webrtc = null;
 	}
 }
+
+mentorAvatar.onerror = handleBadAvatar();
+mentorAvatar.src = "users/signed_in/avatar";
 
 socket.on('queueUpdate', handleQueueUpdate);
 socket.on('changeRoom', handleRoomChange);

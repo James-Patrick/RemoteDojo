@@ -24,6 +24,8 @@ input[type='email'],
 input[type='password'],
 input[type='file']	{border-radius: 0}
 
+#chats{z-index:-1} /* In firefox the chats panel will overlap with the signout button, blocking it; hence the z-index must be set. */
+
 /*NEW CODE ADDED*/
 @media (min-width: 992px) { 
 	#chats{position:absolute;top:50px;right:10px;}

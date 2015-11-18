@@ -1,43 +1,41 @@
 extends layout
 
 block content
-    h1#title Demo Start Page
-    h2 Mentor Entry:
-    button(onclick='return popoutMentor()') Enter!
-    br
-    br
-    h2 Ninja Entry:
-    button(onclick='return popoutNinja()') Enter!
-    script(src='//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js')
-    script.
-      function popoutMentor() {
-      var url = "Mentor";
-      var w = window.open(url, "_blank", "status=no, menubar=no, titlebar=yes, toolbar=no, location=no, width=300, height=620, scrollbars=yes", false);
-      return w?false:true;
-      }
-      function popoutNinja() {
-      var url = "Ninja";
-      var w = window.open(url, "_blank", "status=no, menubar=no, titlebar=yes, toolbar=no, location=no, width=300, height=620, scrollbars=yes", false);
-      return w?false:true;
-      }
-    script(type='application/javascript').
-      <!--
-      function install (aEvent)
-      {
-      for (var a = aEvent.target; a.href === undefined;) a = a.parentNode;
-      var params = {
-      "Foo": { URL: aEvent.target.href,
-      IconURL: aEvent.target.getAttribute("iconURL"),
-      Hash: aEvent.target.getAttribute("hash"),
-      toString: function () { return this.URL; }
-      }
-      };
-      InstallTrigger.install(params);
-      return false;
-      }
-      -->
-    br
-    br
-    br
-    a(href='coderdojo-screen-share.xpi', hash='sha256:A22D0B57071C46A54D51278D61006F5E76A1FFC817081BD64020257C051BBC9C', onclick='return install(event);') Install Extension!
-
+	#mentorEntry
+		h2 Mentor Entry
+		button(onclick='return popoutMentor()') Enter!
+	#ninjaEntry
+		h2 Ninja Entry
+		button(onclick='return popoutNinja()') Enter!
+		br
+		br
+		a(href='coderdojo-screen-share.xpi', hash='sha256:A22D0B57071C46A54D51278D61006F5E76A1FFC817081BD64020257C051BBC9C', onclick='return install(event);') Install Extension!		
+		
+	script(src='//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js')
+	script.
+		function popoutMentor() {
+			var url = "Mentor";
+			var w = window.open(url, "_blank", "status=no, menubar=no, titlebar=yes, toolbar=no, location=no, width=300, height=620, scrollbars=yes", false);
+			return w?false:true;
+		}
+		function popoutNinja() {
+			var url = "Ninja";
+			var w = window.open(url, "_blank", "status=no, menubar=no, titlebar=yes, toolbar=no, location=no, width=300, height=620, scrollbars=yes", false);
+			return w?false:true;
+		}
+	script(type='application/javascript').
+		<!--
+		function install (aEvent)
+		{
+			for (var a = aEvent.target; a.href === undefined;) a = a.parentNode;
+			var params = {
+				"Foo": { URL: aEvent.target.href,
+				IconURL: aEvent.target.getAttribute("iconURL"),
+				Hash: aEvent.target.getAttribute("hash"),
+				toString: function () { return this.URL; }
+				}
+			};
+		InstallTrigger.install(params);
+		return false;
+		}
+		-->

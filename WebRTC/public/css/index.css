@@ -1,0 +1,80 @@
+@font-face {
+	font-family: ninjaFont;
+	src: url(../fonts/ninja-regular.ttf);
+}
+
+@font-face {
+	font-family: brush;
+	src: url(../fonts/Brush-Strokes.ttf);
+}
+
+html, body {
+	height : 100%;
+	margin : 0;
+	padding : 0;
+	font-family: sans-serif;
+	background-image: url(../img/background.png);
+}
+
+footer {
+	height: 60px;
+	font-size: 12pt;
+	position: absolute;
+	bottom:0;
+	left:0;
+	background: #3784D2;
+	color: #FFFFFF;
+	text-align: center;
+	width: 100%;
+	padding-top:10px;
+}
+
+header {
+	padding-top: 10px;
+	font-family: brush;
+	font-weight: 500;
+	font-size: 60pt;
+	background: #3784D2;
+	color: #FFFFFF;
+	text-align: center;
+}
+
+button {
+	border: 1px solid #808080;
+	border-radius:5px;
+	height: 50px;
+	width:75px;
+	background: #e0e0e0;
+	cursor:pointer;
+}
+button:hover {
+	background: #cccccc;
+}
+
+
+#ninjaEntry h2, #mentorEntry h2 {
+	font-family: ninjaFont;
+	font-size: 30pt
+}
+
+#ninjaEntry, #mentorEntry {
+	position: relative;
+	text-align: center;
+	border: 5px solid #663300;
+	border-radius: 5px;
+	width: 25%;
+	top: 20px;
+	height: 300px;
+	padding: 30px;
+	background: #f9f9f9;
+}
+
+#ninjaEntry {
+	left: 10%;
+	float: left;
+}
+
+#mentorEntry {
+	float: right;
+	right: 10%;
+}
